@@ -7,7 +7,6 @@ import Error from "../Error"
 import { Suspense, useState } from "react"
 import moment from "moment"
 import { DataTableLoader } from "../DataTableLoader"
-import { useFilteredItemsStore } from "@/hooks/useStore"
 
 
 const CollectionList = () => {

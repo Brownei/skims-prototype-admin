@@ -12,11 +12,7 @@ async function getOrders(): Promise<Order[]> {
             adminId: currentUser?.id
         }, 
         include: {
-            orderItems: {
-                include: {
-                    product: true
-                }
-            },
+            product: true
         },
         orderBy: {
             createdAt: 'desc'

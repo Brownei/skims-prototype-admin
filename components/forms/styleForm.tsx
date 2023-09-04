@@ -10,17 +10,7 @@ import { Admin, Style } from '@prisma/client';
 import { useInitialStyleStore } from '@/hooks/useStore';
 import {nanoid} from 'nanoid'
 import moment from "moment"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import getQueryClient from "@/utils/getQueryClient"
-
-// type StyleRemake = {
-//   items: readonly {
-//     id: string
-//     name: string
-//     createdAt: string
-//     updatedAt: string
-//   }[]
-// }
+import { useQueryClient } from "@tanstack/react-query"
 
 const StyleForm = ({currentUser} : {
   currentUser: Admin | null

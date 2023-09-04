@@ -26,7 +26,7 @@ export default async function getProductByName(
             style: true,
             size: true,
             images: true,
-            orderItems: true
+            order: true
         }
     })
 

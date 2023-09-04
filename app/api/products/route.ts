@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
                 style: true,
                 size: true,
                 images: true,
-                orderItems: true
+                order: true
             }
         })
 

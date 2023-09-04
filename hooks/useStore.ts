@@ -1,7 +1,6 @@
 "use client"
 import { create } from 'zustand';
 import { StyleColumn } from '@/components/style/columns';
-import { CollectionColumns } from '@/components/collections/data-table';
 
 //LOADING STATE STORE
 type LoadingState = {
@@ -36,22 +35,5 @@ export const useInitialStyleStore = create<InitialStyleState & InitialStyleActio
     },
     onRemove: () => {
         set({initialStyle: null})
-    }
-}))
-
-
-//SEARCH STATE STORE 
-type FilteredItemsState = {
-    filteredValues: CollectionColumns[]
-}
-
-type FilteredItemsAction = {
-    onChange: (newValue: CollectionColumns[]) => void
-}
-
-export const useFilteredItemsStore = create<FilteredItemsState & FilteredItemsAction>((set) => ({
-    filteredValues: [],
-    onChange: (newValue) => {
-        set({filteredValues: newValue})
     }
 }))

@@ -14,7 +14,6 @@ type subCategories = {
   id: string;
 }
 
-
 type CategoryFormProps = {
   title: string;
   isLoading: boolean;
