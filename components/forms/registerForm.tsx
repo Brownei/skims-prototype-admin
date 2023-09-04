@@ -8,10 +8,12 @@ import { SyncLoader } from "react-spinners"
 import React from "react"
 import { useLoadingStore } from "@/hooks/useStore"
 import axios from "axios"
+import { useRouter } from "next/navigation"
 
 
 const RegisterForm = () => {
   const { Loading, onLoading, notLoading } = useLoadingStore()
+  const router = useRouter()
 
   async function registerAdmin (formData: FormData) {
     onLoading()
@@ -26,23 +28,23 @@ const RegisterForm = () => {
     }
 
     try {
-        const register = await axios.post('/api/admin', {
+      const register = await axios.post('/api/admin', {
+        email,
+        firstName: firstName,
+        lastName: lastName,
+        hashedPassword: password,
+      })
+      if(register.data) {
+        await signIn('credentials', {
+            redirect: false,
             email,
-            firstName: firstName,
-            lastName: lastName,
-            hashedPassword: password,
+            password
         })
-        if(register.data) {
-            await signIn('credentials', {
-                redirect: false,
-                email,
-                password
-            })
-            window.location.assign('/dashboard/overview')
-        }
+        router.push('/dashboard/overview')
+      }
     } catch (error) {
       console.log(error)
-      window.location.assign('/')
+      router.push('/')
     } finally {
       notLoading()
     }
@@ -72,7 +74,7 @@ const RegisterForm = () => {
           <Input name="confirmPassword" placeholder="*********"/>
         </div>
         <Button className="w-full text-center font-ProBold bg-[#AB8F80] hover:bg-[#8b7366] duration-300" type="submit" disabled={Loading}>
-          {Loading ? <SyncLoader size={10}/> : "Register"}
+          {Loading ? <SyncLoader size={5}/> : "Register"}
         </Button>
       </form>
       <p className="flex gap-1 justify-end text-sm font-ProBold">Already have an account? 

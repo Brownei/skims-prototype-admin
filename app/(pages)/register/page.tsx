@@ -44,8 +44,8 @@ import RegisterForm from "@/components/forms/registerForm";
             </SwiperSlide>
         </Swiper>
         <div className="bg-white p-5 rounded-lg absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] w-[80%] z-30 lg:hidden">
-            <h1 className="text-center font-ProExtraBold text-[5vw]">SKIMS</h1>
-            <p className="text-center font-ProLight text-sm mb-4">Solution for every body</p>
+            <h1 className="text-center font-ProExtraBold text-[5vw]">Register with SKIMS</h1>
+            <p className="text-center font-ProLight text-sm mb-4">Here you can focus on creating a solution for every body</p>
             <RegisterForm />
         </div>
     </section>

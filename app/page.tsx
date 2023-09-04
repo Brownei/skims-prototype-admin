@@ -23,8 +23,8 @@ import LoginForm from "@/components/forms/loginForm";
                 </SwiperSlide>
             </Swiper>
             <div className="hidden bg-white p-10 m-5 rounded-lg min-h-full flex-1 flex-col justify-center z-30 lg:block">
-                <h1 className="text-center font-ProExtraBold text-[2vw]">Register with SKIMS</h1>
-                <p className="text-center font-ProLight text-sm mb-4">Here you can focus on creating a solution for every body</p>
+                <h1 className="text-center font-ProExtraBold text-[2vw]">SKIMS</h1>
+                <p className="text-center font-ProLight text-sm mb-4">Solution for every body</p>
                 <LoginForm />
             </div>
         </div>
