@@ -8,8 +8,11 @@ import { OrderColumn } from "./columns"
 import { DataTable } from "./data-table"
 import { useOrders } from "@/hooks/new-orders"
 
+type OrderListProps = {
+  orderDataItem: OrderColumn[]
+}
 
-const OrderList = (orderDataItem: OrderColumn[]) => {
+const OrderList = ({orderDataItem}: OrderListProps) => {
 
   return (
     <div>
