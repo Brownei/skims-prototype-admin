@@ -109,7 +109,7 @@ export const authOptions: NextAuthOptions = {
   //   }
   // },
 
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === "production",
   secret: process.env.NEXTAUTH_SECRET,
 
   pages: {
