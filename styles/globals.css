@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+html, 
+body, 
+:root {
+  height: 100%;
+}
+
+@font-face {
+  font-family: 'T-Star Pro Medium';
+  src: url('../fonts/T-StarPro-Medium.eot');
+  src: local('T-Star Pro Medium'), local('T-StarPro-Medium'),
+      url('../fonts/T-StarPro-Medium.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/T-StarPro-Medium.woff2') format('woff2'),
+      url('../fonts/T-StarPro-Medium.woff') format('woff'),
+      url('../fonts/T-StarPro-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'T-Star Pro';
+  src: url('../fonts/T-StarPro-Regular.eot');
+  src: local('T-Star Pro Regular'), local('T-StarPro-Regular'),
+      url('../fonts/T-StarPro-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/T-StarPro-Regular.woff2') format('woff2'),
+      url('../fonts/T-StarPro-Regular.woff') format('woff'),
+      url('../fonts/T-StarPro-Regular.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'T-Star Pro Bold';
+  src: url('../fonts/T-StarPro-Bold.eot');
+  src: local('T-Star Pro Bold'), local('T-StarPro-Bold'),
+      url('../fonts/T-StarPro-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/T-StarPro-Bold.woff2') format('woff2'),
+      url('../fonts/T-StarPro-Bold.woff') format('woff'),
+      url('../fonts/T-StarPro-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'T-Star Pro Extra-Bold';
+  src: url('../fonts/T-StarPro-Heavy.eot');
+  src: local('T-Star Pro Heavy'), local('T-StarPro-Heavy'),
+      url('../fonts/T-StarPro-Heavy.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/T-StarPro-Heavy.woff2') format('woff2'),
+      url('../fonts/T-StarPro-Heavy.woff') format('woff'),
+      url('../fonts/T-StarPro-Heavy.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'T-Star Pro Light';
+  src: url('../fonts/T-StarPro-Light.eot');
+  src: local('T-Star Pro Light'), local('T-StarPro-Light'),
+      url('../fonts/T-StarPro-Light.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/T-StarPro-Light.woff2') format('woff2'),
+      url('../fonts/T-StarPro-Light.woff') format('woff'),
+      url('../fonts/T-StarPro-Light.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+ 
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+ 
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+ 
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+ 
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+ 
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+ 
+    --ring: 240 5% 64.9%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+ 
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+ 
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+ 
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+ 
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+ 
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+ 
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+ 
+    --ring: 240 3.7% 15.9%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

@@ -1,113 +1,54 @@
-import Image from 'next/image'
+"use client"
+import Image from "next/image";
+import 'swiper/css';
+import 'swiper/css/effect-fade'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectFade, Autoplay } from 'swiper/modules';
+import LoginForm from "@/components/forms/loginForm";
 
-export default function Home() {
+ const RegisterPage = () => {  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <section className="h-full w-full lg:bg-[#eceaf2]">
+        <div className="flex flex-col justify-between items-center lg:flex-row">
+            {/* Large Screen View  */}
+            <Swiper className="hidden w-1/2 h-full z-30 lg:block" modules={[EffectFade, Autoplay]} effect="fade" autoplay>
+                <SwiperSlide>
+                    <Image className="w-full h-screen object-cover hidden lg:block" src={'https://cdn.sanity.io/images/hfqi0zm0/production/0ba25e33a89f1645800dcda38ac00c3bb04fbde5-706x894.jpg?q=95&auto=format'} width={1000} height={1000} quality={100} alt="1"/>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <Image className="w-full h-screen object-cover hidden lg:block" src={'https://cdn.sanity.io/images/hfqi0zm0/production/4a2848b2be381cfc6df860ed85a6ff3ad04ceb85-706x894.jpg?q=95&auto=format'} width={1000} height={1000} quality={100} alt="1"/>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <Image className="w-full h-screen object-cover hidden lg:block" src={'https://cdn.sanity.io/images/hfqi0zm0/production/5ee76456b9499bed5a7a78cc55eb36946bed672e-706x894.jpg?q=95&auto=format'} width={1000} height={1000} quality={100} alt="1"/>
+                </SwiperSlide>
+            </Swiper>
+            <div className="hidden bg-white p-10 m-5 rounded-lg min-h-full flex-1 flex-col justify-center z-30 lg:block">
+                <h1 className="text-center font-ProExtraBold text-[2vw]">Register with SKIMS</h1>
+                <p className="text-center font-ProLight text-sm mb-4">Here you can focus on creating a solution for every body</p>
+                <LoginForm />
+            </div>
         </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        {/* Small Screen View */}
+        <div className="mx-auto absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-20 lg:hidden"/>
+        <Swiper className="absolute top-0 left-0 right-0 bottom-0 -z-20 lg:hidden" modules={[EffectFade, Autoplay]} effect="fade" autoplay>
+            <SwiperSlide>
+                <Image className="w-full h-screen object-cover lg:hidden" src={'https://cdn.sanity.io/images/hfqi0zm0/production/0ba25e33a89f1645800dcda38ac00c3bb04fbde5-706x894.jpg?q=95&auto=format'} width={1000} height={1000} quality={100} alt="1"/>
+            </SwiperSlide>
+            <SwiperSlide>
+                <Image className="w-full h-screen object-cover lg:hidden" src={'https://cdn.sanity.io/images/hfqi0zm0/production/4a2848b2be381cfc6df860ed85a6ff3ad04ceb85-706x894.jpg?q=95&auto=format'} width={1000} height={1000} quality={100} alt="1"/>
+            </SwiperSlide>
+            <SwiperSlide>
+                <Image className="w-full h-screen object-cover lg:hidden" src={'https://cdn.sanity.io/images/hfqi0zm0/production/5ee76456b9499bed5a7a78cc55eb36946bed672e-706x894.jpg?q=95&auto=format'} width={1000} height={1000} quality={100} alt="1"/>
+            </SwiperSlide>
+        </Swiper>
+        <div className="bg-white p-5 rounded-lg absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] w-[80%] z-30 lg:hidden">
+            <h1 className="text-center font-ProExtraBold text-[5vw]">SKIMS</h1>
+            <p className="text-center font-ProLight text-sm mb-4">Solution for every body</p>
+            <LoginForm />
+        </div>
+    </section>
   )
 }
+
+export default RegisterPage;

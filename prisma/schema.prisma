@@ -1,0 +1,213 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+//Schemas for the database
+model Admin {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  firstName      String
+  lastName       String
+  email          String        @unique
+  hashedPassword String
+  emailVerified  DateTime?
+  image          String?
+  accounts       Account[]
+  categories     Category[]    @relation("AdminToCategory")
+  subCategories  SubCategory[] @relation("AdminToSubCategory")
+  products       Product[]     @relation("AdminToProduct")
+  sizes          Size[]        @relation("AdminToSize")
+  colors         Color[]       @relation("AdminToColor")
+  style          Style[]       @relation("AdminToStyle")
+  collection     Collection[]  @relation("AdminToCollection")
+  orders         Order[]       @relation("AdminToOrder")
+  images         Image[]       @relation("AdminToImage")
+  banner         Banner[]      @relation("AdminToBanner")
+  createdAt      DateTime?     @default(now())
+  updatedAt      DateTime?     @updatedAt
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  adminId           String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Product {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  adminId       String      @db.ObjectId
+  admin         Admin       @relation("AdminToProduct", fields: [adminId], references: [id])
+  categoryId    String      @db.ObjectId
+  category      Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  subCategoryId String      @db.ObjectId
+  subCategory   SubCategory @relation("SubcategoryToProduct", fields: [subCategoryId], references: [id])
+  name          String      @unique
+  price         Float
+  details       String
+  quantity      Float
+  isSoldOut     Boolean     @default(false)
+  isFeatured    Boolean     @default(false)
+  sizeId        String[]    @db.ObjectId
+  size          Size[]      @relation("ProductToSize", fields: [sizeId], references: [id])
+  colorId       String      @db.ObjectId
+  color         Color       @relation("ProductToColor", fields: [colorId], references: [id])
+  styleId       String      @db.ObjectId
+  style         Style       @relation(fields: [styleId], references: [id])
+  collectionId  String      @db.ObjectId
+  collection    Collection  @relation(fields: [collectionId], references: [id])
+  images        Image[]     @relation("ProductToImage")
+  orderId       String[]    @db.ObjectId
+  order         Order[]     @relation("OrderToProduct", fields: [orderId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([adminId])
+  @@index([categoryId])
+  @@index([colorId])
+  @@index([styleId])
+  @@index([collectionId])
+  @@index([subCategoryId])
+}
+
+model Category {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  adminId       String        @db.ObjectId
+  admin         Admin         @relation("AdminToCategory", fields: [adminId], references: [id])
+  name          String        @unique
+  subCategories SubCategory[] @relation("CategoryToSubCategory")
+  products      Product[]     @relation("CategoryToProduct")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([adminId])
+}
+
+model SubCategory {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  adminId    String    @db.ObjectId
+  admin      Admin     @relation("AdminToSubCategory", fields: [adminId], references: [id])
+  name       String    @unique
+  categoryId String    @db.ObjectId
+  category   Category  @relation("CategoryToSubCategory", fields: [categoryId], references: [id])
+  products   Product[] @relation("SubcategoryToProduct")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Order {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  adminId   String    @db.ObjectId
+  admin     Admin     @relation("AdminToOrder", fields: [adminId], references: [id])
+  name      String    @default("")
+  email     String    @default("")
+  phone     String    @default("")
+  address   String    @default("")
+  productId String[]  @db.ObjectId
+  product   Product[] @relation("OrderToProduct", fields: [productId], references: [id])
+  isPaid    Boolean   @default(false)
+  pricePaid Float
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([adminId])
+  @@index([productId])
+}
+
+model Size {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  adminId   String    @db.ObjectId
+  admin     Admin     @relation("AdminToSize", fields: [adminId], references: [id])
+  name      String    @unique
+  value     String
+  productId String[]  @db.ObjectId
+  products  Product[] @relation("ProductToSize", fields: [productId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([adminId])
+}
+
+model Color {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  adminId   String    @db.ObjectId
+  admin     Admin     @relation("AdminToColor", fields: [adminId], references: [id])
+  name      String    @unique
+  value     String
+  products  Product[] @relation("ProductToColor")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([adminId])
+}
+
+model Style {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  adminId   String    @db.ObjectId
+  admin     Admin     @relation("AdminToStyle", fields: [adminId], references: [id])
+  name      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([adminId])
+}
+
+model Collection {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  adminId          String    @db.ObjectId
+  admin            Admin     @relation("AdminToCollection", fields: [adminId], references: [id])
+  name             String    @unique
+  isEssentials     Boolean   @default(false)
+  isLimitedEdition Boolean   @default(false)
+  products         Product[]
+  image            String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([adminId])
+}
+
+model Image {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  adminId   String   @db.ObjectId
+  admin     Admin    @relation("AdminToImage", fields: [adminId], references: [id])
+  productId String   @db.ObjectId
+  product   Product  @relation("ProductToImage", fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([adminId])
+}
+
+model Banner {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  adminId   String   @db.ObjectId
+  admin     Admin    @relation("AdminToBanner", fields: [adminId], references: [id])
+  name      String
+  imageUrl  String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  @@index([adminId])
+}
