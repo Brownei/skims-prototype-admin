@@ -5,9 +5,6 @@ const nextConfig = {
     images: {
         domains: ['cdn.sanity.io', 'res.cloudinary.com', 'uploadthing.com'],
     },
-    typescript: {
-        ignoreBuildErrors: true,
-    },
     experimental: {
         serverActions: true
     }
