@@ -1,5 +1,4 @@
 "use client"
-
 import { Tooltip, AreaChart, Area, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 interface OverviewProps {
@@ -12,7 +11,7 @@ export const Overview: React.FC<OverviewProps> = ({
   return (
     <ResponsiveContainer width="100%" height={350}>
       <AreaChart
-          width={500}
+          width={700}
           height={400}
           data={data}
           margin={{

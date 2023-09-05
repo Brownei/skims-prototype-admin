@@ -2,6 +2,8 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { ReactNode } from 'react'
+import { motion } from "framer-motion"; 
+
 
 export default function ClientProvider({children} : {
     children: ReactNode
@@ -12,7 +14,12 @@ export default function ClientProvider({children} : {
   return (
     <div>
         <QueryClientProvider client={queryClient}>
+          <motion.main
+          initial="hidden"
+          animate="visible"
+          exit={{ opacity: 0, transition: { duration: 2 } }}>
             {children}
+          </motion.main>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     </div>

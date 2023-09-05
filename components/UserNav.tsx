@@ -16,12 +16,15 @@ import {
   } from "@/components/ui/dropdown-menu"
 import { Admin } from "@prisma/client"
 import { signOut } from "next-auth/react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
   type UserNavProps = {
     currentUser: Admin | null
   }
   
   export function UserNav({currentUser}: UserNavProps) {
+    const router = useRouter()
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -32,10 +35,10 @@ import { signOut } from "next-auth/react"
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
+        <DropdownMenuContent className="w-56 font-ProRegular" align="end" forceMount>
+          <DropdownMenuLabel className="font-ProRegular">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{currentUser?.firstName} {currentUser?.lastName}</p>
+              <p className="text-sm font-ProMedium leading-none">{currentUser?.firstName} {currentUser?.lastName}</p>
               <p className="text-xs leading-none text-muted-foreground">
                 {currentUser?.email}
               </p>
@@ -43,10 +46,10 @@ import { signOut } from "next-auth/react"
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>
               Settings
             </DropdownMenuItem>
           </DropdownMenuGroup>

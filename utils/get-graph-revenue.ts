@@ -56,16 +56,16 @@ export const getGraphRevenue = async (id: string | undefined): Promise<GraphData
   return graphData;
 };
 
-export const getRevenueForAreaChart = async (id: string | undefined) => {
-  const paidOrders = await prismaClient.order.findMany({
-    where: {
-      adminId: id,
-      isPaid: true,
-    },
-    include: {
-      product: true
-    },
-  });
+// export const getRevenueForAreaChart = async (id: string | undefined) => {
+//   const paidOrders = await prismaClient.order.findMany({
+//     where: {
+//       adminId: id,
+//       isPaid: true,
+//     },
+//     include: {
+//       product: true
+//     },
+//   });
 
-  return paidOrders
-}
+//   return paidOrders
+// }

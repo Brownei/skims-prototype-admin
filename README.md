@@ -1,31 +1,71 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [Skims Prototype Admin](https://skims-admin.vercel.app/)
 
-## Getting Started
+![](https://github.com/Brownei/skims-prototype-admin/assets/108178828/079a296a-6b3f-472f-ab93-14028a326752)
 
-First, run the development server:
+
+The Skims Admin Prototype was built to demonstrate how an intuitive admin interface can simplify the process of managing fashion collections. By centralizing the control of collections, styles, categories, and products, it empowers Skims' team to maintain a dynamic and diverse product catalog efficiently.
+
+### Technologies Used:
+- Framework: Next.js
+- Styling: Tailwind CSS
+- User Management: Next-Auth
+- ORM: Prisma ORM
+- UI Components: shadcn/ui
+- File Uploads: uploadthing and Cloudinary
+- Payments infrastructure: (Working progress)
+
+### Getting Started
+To set up and run the Skims Admin Prototype locally, follow the installation and usage instructions in the project's documentation: 
+
+First, clone the repository into your machine:
+```bash
+https://github.com/Brownei/skims-prototype-admin.git
+```
+
+Second, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Third, install Prisma ORM, generate a schema file and generate a PrismaClient for your project: 
+```bash
+npm install prisma --save-dev (For installation)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+npx prisma init (For createing your schema)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+npm install @prisma/client (For generating your PrismaClient)
+```
+
+Fourth, you must have chosen your database for this project, which you must have had your Database url for the schema to be able to interact with your database. At the top of your schema, you will see this which will help you specify your database to be used and your URL.  
+N.B: I made use of MongoDB database.
+
+```bash
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+```
+
+Copy the .env.example to .env and update the variables.
+```bash
+DATABASE_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+UPLOADTHING_SECRET=
+UPLOADTHING_APP_ID=
+```
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about Next.js, Prisma, and Shadcn Ui take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API.
+- [Prisma ORM Documentation](https://www.prisma.io/docs/getting-started) - Learn about Prisma and how to generate schemas and write RESTful API's.
+- [Shadcn Ui Documentation](https://ui.shadcn.com/docs) - Learn about Shadcn Ui and its easy way of evolving your frontend skills.
 
 ## Deploy on Vercel
 

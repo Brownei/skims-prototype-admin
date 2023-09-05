@@ -1,17 +1,37 @@
 "use client"
-
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/sheet"
 import { signOut } from "next-auth/react"
 import Link from "next/link"
 import {usePathname} from "next/navigation"
+import {useScroll, useMotionValueEvent, motion} from 'framer-motion'
+import { useState } from "react"
+import { cn } from "@/lib/utils"
+import { Button } from "./ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Admin } from "@prisma/client"
 
-const Menu = () => {
-  const inActiveLink = "flex gap-3 p-1 items-center duration-300 transition hover:bg-[#eceaf2] hover:text-black hover:rounded-l-lg hover:ml-5 hover:mr-0 font-ProExtraBold md:text-[18px] md:w-[15vw] lg:w-[20vw] lg:text-[20px]"
+type MenuProps = {
+  currentUser: Admin | null
+}
+
+const Menu = ({currentUser}: MenuProps) => {
+  const inActiveLink = "flex gap-3 p-1 items-center duration-300 transition-all ease-in-out font-ProExtraBold hover:bg-[#eceaf2] hover:text-black hover:rounded-l-lg hover:ml-5 hover:mr-0 md:text-[14px] md:w-[15vw] lg:w-[20vw] lg:text-[16px]"
   const activeLink = inActiveLink+ " bg-[#eceaf2] text-black rounded-l-lg"
   const pathname = usePathname()
+  const [hidden, setHidden] = useState(false)
+  const { scrollY } = useScroll()
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious()
+    if(latest > previous && latest > 150) {
+      setHidden(true)
+    } else {
+      setHidden(false)
+    }
+  })
 
   return (
-    <section>
+    <nav className="font-ProRegular">
       {/* Bigger Devices View */}
       <aside className='fixed hidden min-h-screen text-[#ECEAF2] mr-0 bg-[#AB8F80] lg:block md:w-[15vw] lg:w-[20vw]'>
         <ul className="flex flex-col justify-center items-start gap-8 ml-7 mr-0 mt-10 absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]">
@@ -123,7 +143,14 @@ const Menu = () => {
 
 
       {/* Mobile View */}
-      <div className='flex justify-between items-center px-2 h-[50px] bg-[#AB8F80] text-white'>
+      <motion.nav 
+      variants={{
+        visible: { y: 0 },
+        hidden: {y: "-100%"}
+      }}
+      animate= { hidden ? 'hidden' : 'visible' }
+      transition= {{ duration: 0.4, ease: "easeInOut"}}
+      className='sticky top-0 flex justify-between items-center px-3 h-[50px] w-full bg-[#AB8F80] text-white'>
         <Sheet key={"left"}>
           <div className='block lg:hidden'>
             <SheetTrigger asChild>
@@ -134,26 +161,58 @@ const Menu = () => {
               </button> 
             </SheetTrigger>  
             <SheetContent className='w-[40vw] bg-[#AB8F80] text-white' side={"left"}>
-              <div className="grid gap-6 py-4">
-                <ul className="grid grid-rows-4 items-center gap-6">
-                  <li>Home</li>
-                  <li>Orders</li>
-                  <li>Categories</li>
-                  <li>Style</li>
-                  <li>Colors</li>
-                  <li>Size</li>
-                  <li>Collections</li>
-                  <li>Products</li>
-                  <li>Transactions</li>
-                  <li>Settings</li>
-                </ul>
-                <div className="flex items-center gap-1 px-3 py-1 border outline-2 rounded-full">
-                  <input className="w-full px-4 outline-none border-none bg-transparent text-white focus:outline-none focus:border-none" placeholder="search"/>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                  </svg>
-                </div>
-              </div>
+              <ul className="grid grid-rows-4 items-center gap-6">
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/overview') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/overview'}>
+                    Home
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/orders') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/orders'}>
+                    Orders
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/categories') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/categories'}>
+                    Categories
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/styles') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/styles'}>
+                    Styles
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/colors') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/colors'}>
+                    Colors
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/sizes') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/sizes'}>
+                    Sizes
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/collections') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/collections'}>
+                    Collections
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/products') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/products'}>
+                    Products
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/transactions') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/transactions'}>
+                    Transactions
+                  </Link>
+                </li>
+                <li className={cn('cursor-pointer font-ProBold hover:font-ProExtraBold', pathname.includes('/dahboard/settings') ? 'text-muted-foreground font-ProExtraBold' : '')}>
+                  <Link href={'/dashboard/settings'}>
+                    Settings
+                  </Link>
+                </li>
+              </ul>
               <SheetFooter className="absolute bottom-4 right-5">
                 <SheetClose>
                   <button onClick={() => signOut()} className="flex gap-1 items-center">
@@ -167,7 +226,7 @@ const Menu = () => {
             </SheetContent>
           </div>
         </Sheet>
-        <a className='text-lg font-ProExtraBold lg:hidden' href="/">SKIMS</a>
+        <a className='text-lg font-ProExtraBold lg:hidden' href="/dashboard/overview">SKIMS</a>
         <div className="flex gap-3 items-center lg:hidden">
             <Link href="/notifications">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
@@ -175,13 +234,16 @@ const Menu = () => {
               </svg>
             </Link>
             <Link href="/profile">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-              </svg>
+              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+                  <AvatarFallback>{currentUser?.image}</AvatarFallback>
+                </Avatar>
+              </Button>
             </Link>
         </div>
-      </div>
-    </section>
+      </motion.nav>
+    </nav>
   )
 }
 

@@ -1,6 +1,4 @@
 import { Metadata } from "next"
-import Image from "next/image"
-
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -25,8 +23,6 @@ import getCurrentUser from "@/app/actions/getCurrentUser"
 import { getSales,getSalesPercentage, getSalesByCurrentMonth, getSalesOrders } from "@/utils/get-sales"
 import { getProductCount } from "@/utils/get-product-count"
 import { getTotalRevenue, getTotalRevenuePercentage } from "@/utils/get-total-revenue"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -49,7 +45,7 @@ export default async function DashboardPage() {
     });
 
   return (
-    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-full font-ProRegular lg:ml-[20vw]'>
+    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] font-ProRegular lg:ml-[20vw]'>
       <div className="hidden flex-col md:flex">
         <div className="border-b">
             <div className="hidden ml-auto justify-end items-center space-x-4 lg:flex">
@@ -82,7 +78,7 @@ export default async function DashboardPage() {
                     <CardTitle className="text-sm font-ProMedium">
                       Total Revenue
                     </CardTitle>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-muted-foreground">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-muted-foreground">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </CardHeader>
@@ -142,6 +138,18 @@ export default async function DashboardPage() {
                   </CardContent>
                 </Card>
               </div>
+            </TabsContent>
+            <TabsContent value="analytics">
+              <div>
+                <h1 className="grid justify-center items-center text-center">Formulating ideas for this section</h1>
+              </div>
+            </TabsContent>
+            <TabsContent value="notifications">
+              <Card>
+                <CardContent className="pt-3">
+                  <h1>Omom!!</h1>
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>
