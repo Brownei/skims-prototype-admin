@@ -1,4 +1,3 @@
-import getColors from "@/app/actions/getColors";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import CreateProducts from "@/components/products/CreateProduct";
 import { prismaClient } from "@/lib/prismaClient";
