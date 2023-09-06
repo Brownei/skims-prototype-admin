@@ -19,14 +19,7 @@ export default async function getProductByName(
             adminId: currentUser?.id
         }, 
         include: {
-            category: true,
-            subCategory: true,
-            color: true,
-            collection: true,
-            style: true,
-            size: true,
-            images: true,
-            order: true
+            images: true
         }
     })
 

@@ -2,11 +2,6 @@ import getCurrentUser from "@/app/actions/getCurrentUser"
 import getCategoryByName from "@/app/actions/getCategoryByName"
 import getSubCategoriesByName from "@/app/actions/getSubCategoriesByName";
 import CreateCategory from "@/components/category/CreateCategory";
-import { Admin, Category, SubCategory } from "@prisma/client";
-import { Suspense } from "react";
-import { Loader } from "@/components/Loader";
-import axios from "axios";
-import getCategories from "@/app/actions/getCategories";
 
 interface IParams {
   categoryName: string;
@@ -29,12 +24,3 @@ const CategoryEditPage = async ({params} : {params: IParams}) => {
 }
 
 export default CategoryEditPage;
-
-
-export async function generateStaticParams() {
-  const categories = await getCategories()
-
-  return categories.map((category) => ({
-    categoryName: category.name
-  }))
-}

@@ -2,17 +2,19 @@
 
 ![](https://github.com/Brownei/skims-prototype-admin/assets/108178828/079a296a-6b3f-472f-ab93-14028a326752)
 
+> **Warning**
+> This project is still in development and is not ready for production use.
 
 The Skims Admin Prototype was built to demonstrate how an intuitive admin interface can simplify the process of managing fashion collections. By centralizing the control of collections, styles, categories, and products, it empowers Skims' team to maintain a dynamic and diverse product catalog efficiently.
 
 ### Technologies Used:
 - Framework: Next.js
 - Styling: Tailwind CSS
-- User Management: Next-Auth
+- Authentication: Next-Auth
 - ORM: Prisma ORM
 - UI Components: shadcn/ui
 - File Uploads: uploadthing and Cloudinary
-- Payments infrastructure: (Working progress)
+- Transaction Infractructure: (Working progress)
 
 ### Getting Started
 To set up and run the Skims Admin Prototype locally, follow the installation and usage instructions in the project's documentation: 
@@ -23,7 +25,6 @@ https://github.com/Brownei/skims-prototype-admin.git
 ```
 
 Second, run the development server:
-
 ```bash
 npm run dev
 ```
@@ -39,7 +40,6 @@ npm install @prisma/client (For generating your PrismaClient)
 
 Fourth, you must have chosen your database for this project, which you must have had your Database url for the schema to be able to interact with your database. At the top of your schema, you will see this which will help you specify your database to be used and your URL.  
 N.B: I made use of MongoDB database.
-
 ```bash
 datasource db {
   provider = "mongodb"

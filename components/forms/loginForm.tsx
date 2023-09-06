@@ -5,13 +5,15 @@ import { Input } from "../ui/input"
 import { signIn } from 'next-auth/react'
 import { SyncLoader } from "react-spinners"
 import { useRouter } from "next/navigation"
-import React from "react"
+import React, { useState } from "react"
 import { useLoadingStore } from "@/hooks/useStore"
 import Link from "next/link"
+import { AxiosError } from "axios"
 
 
 const LoginForm = () => {
   const { Loading, onLoading, notLoading } = useLoadingStore()
+  const [submitError, setSubmitError] = useState('')
   const router = useRouter()
 
   async function login (formData: FormData) {
@@ -26,9 +28,12 @@ const LoginForm = () => {
         password
       })
       router.push('/dashboard/overview')
-    } catch (error) {
+    } catch (error: unknown) {
+      if(error instanceof AxiosError) {
+        const errMsg = error.response?.data?.error
+        setSubmitError(errMsg)
+      }
       console.log(error)
-      router.push('/')
     } finally {
       notLoading()
     }
@@ -56,6 +61,12 @@ const LoginForm = () => {
           </Link>
         </span>
       </p>
+
+      {submitError && (
+        <p className="text-red font-ProExtraBold grid justify-center items-center text-center">
+          {submitError}
+        </p>
+      )}
     </div>
   )
 }

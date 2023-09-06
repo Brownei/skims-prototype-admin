@@ -1,6 +1,7 @@
 import { connectToDB } from "@/lib/database";
 import { prismaClient } from "@/lib/prismaClient";
 import { hashSync } from "bcrypt-ts";
+import { error } from "console";
 import { NextRequest } from "next/server";
 
 

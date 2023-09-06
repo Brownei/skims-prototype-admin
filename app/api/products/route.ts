@@ -2,7 +2,6 @@ import { connectToDB } from "@/lib/database";
 import { prismaClient } from "@/lib/prismaClient";
 import { NextRequest, NextResponse } from "next/server";
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import { getErrorMessage } from "@/lib/error-handler";
 
 export async function GET(req: NextRequest) {
     await connectToDB()

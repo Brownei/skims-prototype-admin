@@ -5,14 +5,15 @@ import { Input } from "../ui/input"
 import { signIn } from 'next-auth/react'
 import Link from "next/link"
 import { SyncLoader } from "react-spinners"
-import React from "react"
+import React, { useState } from "react"
 import { useLoadingStore } from "@/hooks/useStore"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { useRouter } from "next/navigation"
 
 
 const RegisterForm = () => {
   const { Loading, onLoading, notLoading } = useLoadingStore()
+  const [submitError, setSubmitError] = useState('')
   const router = useRouter()
 
   async function registerAdmin (formData: FormData) {
@@ -42,9 +43,12 @@ const RegisterForm = () => {
         })
         router.push('/dashboard/overview')
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      if(error instanceof AxiosError) {
+        const errMsg = error.response?.data?.error
+        setSubmitError(errMsg)
+      }
       console.log(error)
-      router.push('/')
     } finally {
       notLoading()
     }
@@ -78,12 +82,18 @@ const RegisterForm = () => {
         </Button>
       </form>
       <p className="flex gap-1 justify-end text-sm font-ProBold">Already have an account? 
-          <span className="font-ProExtraBold text-[#AB8F80] hover:text-[#8b7366] cursor-pointer duration-300">
-            <Link href={'/'}>
-              Login
-            </Link>
-          </span>
+        <span className="font-ProExtraBold text-[#AB8F80] hover:text-[#8b7366] cursor-pointer duration-300">
+          <Link href={'/'}>
+            Login
+          </Link>
+        </span>
+      </p>
+
+      {submitError && (
+        <p className="text-red font-ProExtraBold grid justify-center items-center text-center">
+          {submitError}
         </p>
+      )}
     </div>
   )
 }

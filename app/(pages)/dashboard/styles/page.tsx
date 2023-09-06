@@ -3,6 +3,7 @@ import StyleForm from "@/components/forms/styleForm";
 import StyleList from "@/components/style/StyleList";
 import { prismaClient } from "@/lib/prismaClient";
 import { Metadata } from "next";
+import { revalidatePath } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Styles",
@@ -16,6 +17,8 @@ const StylesPage = async () => {
       adminId: currentUser?.id
     }
   })
+
+  revalidatePath('/dashboard/styles')
 
   return (
     <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-screen lg:ml-[22vw]'>

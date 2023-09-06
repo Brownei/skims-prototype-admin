@@ -1,6 +1,5 @@
 import getCurrentUser, { getSession } from "@/app/actions/getCurrentUser";
 import getProductByName from "@/app/actions/getProductsByName";
-import CreateCollections from "@/components/collections/CreateCollections";
 import CreateProducts from "@/components/products/CreateProduct";
 import { prismaClient } from "@/lib/prismaClient";
 
@@ -13,6 +12,7 @@ export default async function EditProductPage({params} : { params: IParams}) {
   const initialValue = await prismaClient.product.findUnique({
     where: {
       name: params.productName,
+      adminId: currentUser?.id
     },
     include: {
       images: true
@@ -24,18 +24,4 @@ export default async function EditProductPage({params} : { params: IParams}) {
       <CreateProducts currentUser={currentUser} initialValue={initialValue}/>
     </section>
   )
-}
-
-
-export async function generateStaticParams() {
-  const currentUser = await getCurrentUser()
-  const products = await prismaClient.product.findMany({
-    where: {
-      adminId: currentUser?.id as string
-    }
-  })
-
-  return products.map((product) => ({
-    productName: product.name
-  }))
 }

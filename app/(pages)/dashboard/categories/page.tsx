@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const CategoriesPage = () => {
   return (
-    <div className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-screen w-full lg:ml-[20vw]'>
+    <div className='p-4 flex-grow ml-2 rounded-lg bg-[#eceaf2] h-screen w-full lg:ml-[20vw]'>
       <Label className="font-ProBold md:text-[1.5rem] lg:text-[2.5rem]">
         Categories
       </Label>
