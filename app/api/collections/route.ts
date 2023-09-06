@@ -38,7 +38,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
         
         if(!name || !imageUrl) {
-            return new Response("No valid information")
+            return new Response("No valid information", {status: 404})
         }
 
         const existingCollections = await prismaClient.collection.findUnique({
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         })
 
         if(existingCollections) {
-            return new Response("Existing style!")
+            return new Response("Existing style!", {status: 409})
         }
 
         const newCollections = await prismaClient.collection.create({

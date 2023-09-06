@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "../../api/auth/[...nextauth]/authOptions"
 import { redirect } from "next/navigation"
 import getCurrentUser from "@/app/actions/getCurrentUser"
+import { Toaster } from "sonner"
 
 export default async function PageLayout({
   children,

@@ -21,22 +21,28 @@ const LoginForm = () => {
     const password = formData.get("password")
     const email = formData.get("email")
 
-    try {
-      await signIn('credentials', {
-        redirect: false,
-        email,
-        password
-      })
-      router.push('/dashboard/overview')
-    } catch (error: unknown) {
-      if(error instanceof AxiosError) {
-        const errMsg = error.response?.data?.error
-        setSubmitError(errMsg)
-      }
-      console.log(error)
-    } finally {
+    if(password === '' || email === '') {
+      setSubmitError('Missing Details!')
       notLoading()
+    } else {
+      try {
+        await signIn('credentials', {
+          redirect: false,
+          email,
+          password
+        })
+        router.push('/dashboard/overview')
+      } catch (error: unknown) {
+        if(error instanceof AxiosError) {
+          const errMsg = error.response?.data?.error
+          setSubmitError(errMsg)
+        }
+        console.log(error)
+      } finally {
+        notLoading()
+      }
     }
+
   }
 
   return (
@@ -63,9 +69,11 @@ const LoginForm = () => {
       </p>
 
       {submitError && (
-        <p className="text-red font-ProExtraBold grid justify-center items-center text-center">
-          {submitError}
-        </p>
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+          <p className="text-red text-xs font-ProExtraBold grid justify-center items-center text-center lg:text-sm">
+            {submitError}
+          </p>
+        </div>
       )}
     </div>
   )

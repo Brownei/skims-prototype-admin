@@ -25,33 +25,37 @@ const RegisterForm = () => {
     const confirmPassword = formData.get("confirmPassword")
 
     if(password !== confirmPassword) {
-        throw new Error('Password dont match')
+      setSubmitError('Passwords do not match!')
+      notLoading()
+    } else if(firstName === '' || lastName === '' || email === '' || password === '' || confirmPassword === '') {
+      setSubmitError('Missing Details!')
+      notLoading()
+    } else {
+      try {
+        const register = await axios.post('/api/admin', {
+          email,
+          firstName: firstName,
+          lastName: lastName,
+          hashedPassword: password,
+        })
+        if(register.data) {
+          await signIn('credentials', {
+              redirect: false,
+              email,
+              password
+          })
+          router.push('/dashboard/overview')
+        }
+      } catch (error: unknown) {
+        if(error instanceof AxiosError) {
+          const errMsg = error.response?.data
+          setSubmitError(errMsg)
+        }
+      } finally {
+        notLoading()
+      }
     }
 
-    try {
-      const register = await axios.post('/api/admin', {
-        email,
-        firstName: firstName,
-        lastName: lastName,
-        hashedPassword: password,
-      })
-      if(register.data) {
-        await signIn('credentials', {
-            redirect: false,
-            email,
-            password
-        })
-        router.push('/dashboard/overview')
-      }
-    } catch (error: unknown) {
-      if(error instanceof AxiosError) {
-        const errMsg = error.response?.data?.error
-        setSubmitError(errMsg)
-      }
-      console.log(error)
-    } finally {
-      notLoading()
-    }
   }
 
   return (
@@ -90,9 +94,11 @@ const RegisterForm = () => {
       </p>
 
       {submitError && (
-        <p className="text-red font-ProExtraBold grid justify-center items-center text-center">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+        <p className="text-red text-xs font-ProExtraBold grid justify-center items-center text-center lg:text-sm">
           {submitError}
         </p>
+      </div>
       )}
     </div>
   )

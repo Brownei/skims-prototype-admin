@@ -43,6 +43,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             </div>
             <Image
               fill
+              placeholder='blur'
               className="object-cover"
               alt="Image"
               src={url.url}

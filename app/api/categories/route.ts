@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
         
         if(!name || !subCategoriesName) {
-            return new Response("No valid information")
+            return new Response("No valid information", {status: 404})
         }
 
         const existingCategories = await prismaClient.category.findUnique({
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         })
 
         if(existingCategories) {
-            return new Response("Existing category!")
+            return new Response("Existing category!", {status: 409})
         }
 
 

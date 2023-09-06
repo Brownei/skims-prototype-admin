@@ -5,7 +5,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials"
 import {compare} from 'bcrypt-ts';
-import { IUser, adminProfile } from '@/types/index';
 
 function getGoogleCredentials() {
   const clientId= process.env.GOOGLE_CLIENT_ID

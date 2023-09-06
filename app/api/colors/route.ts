@@ -37,7 +37,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
         
         if(!name || !value) {
-            return new Response("No valid information")
+            return new Response("No valid information", {status: 404})
         }
 
         const existingColors = await prismaClient.color.findFirst({
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         })
 
         if(existingColors) {
-            return new Response("Existing color!")
+            return new Response("Existing color!", {status: 409})
         }
 
         const newColors = await prismaClient.color.create({

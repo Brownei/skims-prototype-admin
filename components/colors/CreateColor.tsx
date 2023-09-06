@@ -3,21 +3,21 @@
 import Link from 'next/link';
 import { useParams, useRouter } from "next/navigation"
 import { SyntheticEvent, useCallback, useState } from "react"
-import { toast } from '@/components/ui/use-toast';
-import axios from "axios"
+import {toast} from '@/components/ui/use-toast'
+import axios, { AxiosError } from "axios"
 import { Admin, Color } from '@prisma/client';
 import ColorForm from '../forms/colorForm';
+import { useLoadingStore } from '@/hooks/useStore';
 
 const CreateColor = ({ currentUser, initialValue } : {
     currentUser: Admin | null
     initialValue?: Color | null
 }) => {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [color, setColor] = useState(initialValue ? initialValue.name : '')
     const [valueColor, setValueColor] = useState(initialValue ? initialValue.value : '')
+    const {Loading, onLoading, notLoading} = useLoadingStore()
     const params = useParams()
     const router = useRouter()
-    const errorMessage = initialValue ? 'Error updating this color' : 'Error creating a color'
     const toastMessage = initialValue ? 'Updated Color' : 'Created Color'
     const titleLabel = initialValue ? 'Update this Color' : 'Create a new Color'
     const ButtonTitle = initialValue ? 'Update Color' : 'Create Color'
@@ -26,37 +26,52 @@ const CreateColor = ({ currentUser, initialValue } : {
     const OnSubmit = useCallback(
       async (e: SyntheticEvent) => {
         e.preventDefault()
-        setIsLoading(true)
-        try {
-            if(initialValue) {
-                await axios.patch(`/api/colors/${params.colorName}`, {
-                    name: color,
-                    value: valueColor,
-                    adminId: currentUser?.id
-                })
-            } else {
-                await axios.post('/api/colors', {
-                    name: color,
-                    value: valueColor,
-                    adminId: currentUser?.id
-                })
-            }
-            toast({
-                title: toastMessage
-            })
-            window.location.assign('/dashboard/colors')
+        onLoading()
 
-  
-        } catch (error) {
-            console.log(errorMessage, error)
+        //CHECK IF THERE IS ANY INPUT
+        if(color === '' || valueColor === '') {
             toast({
-                title: errorMessage,
-                type: "foreground"
+                variant: 'destructive',
+                title: 'Missing Details!',
+                description: `Oops! It seems like you are trying to create a new collection but some essential details are missing.`
             })
-        } finally {
-            setIsLoading(false)
+            notLoading()
+        } else {
+
+            //RUN POST REQUEST IF IT PASSES THE CHECK PHASE
+            try {
+                if(initialValue) {
+                    await axios.patch(`/api/colors/${params.colorName}`, {
+                        name: color,
+                        value: valueColor,
+                        adminId: currentUser?.id
+                    })
+                } else {
+                    await axios.post('/api/colors', {
+                        name: color,
+                        value: valueColor,
+                        adminId: currentUser?.id
+                    })
+                }
+                toast({
+                    title: toastMessage
+                })
+                router.push('/dashboard/colors')
+    
+      
+            } catch (error: unknown) {
+                if(error instanceof AxiosError) {
+                    const errMsg = error.response?.data
+                    toast({
+                        variant: 'destructive',
+                        title: errMsg
+                    })
+                }
+            } finally {
+                notLoading()
+            }
         }
-      }, [color, valueColor, initialValue, params, errorMessage, toastMessage, currentUser]
+      }, [color, valueColor, initialValue, router, params, onLoading, notLoading, toastMessage, currentUser]
     )
 
     
@@ -78,7 +93,7 @@ const CreateColor = ({ currentUser, initialValue } : {
                 initialValue={initialValue}
                 Buttonlabel={ButtonTitle}
                 LoadingLabel={LoadingTitle}
-                isLoading={isLoading}
+                isLoading={Loading}
                 colors={color}
                 setColor={setColor}
                 valuColor={valueColor}

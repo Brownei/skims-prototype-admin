@@ -1,58 +1,73 @@
 "use client"
 
-import Link from 'next/link';
 import { useParams, useRouter } from "next/navigation"
 import { SyntheticEvent, useCallback, useState } from "react"
 import { toast } from '@/components/ui/use-toast';
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { Admin, Size } from '@prisma/client';
-import ColorForm from '../forms/colorForm';
 import SizeForm from '../forms/sizeForm';
 import { Button } from '../ui/button';
+import { useLoadingStore } from "@/hooks/useStore";
 
 const CreateSize = ({ currentUser, initialValue } : {
     currentUser: Admin | null
     initialValue?: Size | null
 }) => {
     const params = useParams()
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const {Loading, notLoading, onLoading} = useLoadingStore()
     const [size, setSize] = useState(initialValue ? initialValue.name : '')
     const [valueSize, setValueSize] = useState(initialValue ? initialValue.value : "")
+    const successMessage = initialValue ? "Size updated!" : "Size created!"
     const router = useRouter() 
   
     const createSize = useCallback(
       async (e: SyntheticEvent) => {
         e.preventDefault()
-        setIsLoading(true)
-        try {
-            if(initialValue) {
-                await axios.patch(`/api/sizes/${params.sizeName}`, {
-                    name: size,
-                    value: valueSize,
-                    adminId: currentUser?.id
-                })
-            } else {
-                await axios.post('/api/sizes', {
-                    name: size,
-                    value: valueSize,
-                    adminId: currentUser?.id
-                })
-            }
-            toast({
-                title: "Success creating a size"
-            })
-            window.location.assign('/dashboard/sizes')
+        onLoading()
 
-        } catch (error) {
-            console.log('Error creating size ', error)
+        //CHECK IF THERE IS ANY INPUT
+        if(size === '' || valueSize === '') {
             toast({
-                title: "Error creating a size",
-                type: "foreground"
+                variant: 'destructive',
+                title: 'Missing Details!',
+                description: `Oops! It seems like you are trying to create a new size but some essential details are missing.`
             })
-        } finally {
-            setIsLoading(false)
+            notLoading()
+        } else {
+
+            //RUN POST REQUEST IF IT PASSES THE CHECK PHASE
+            try {
+                if(initialValue) {
+                    await axios.patch(`/api/sizes/${params.sizeName}`, {
+                        name: size,
+                        value: valueSize,
+                        adminId: currentUser?.id
+                    })
+                } else {
+                    await axios.post('/api/sizes', {
+                        name: size,
+                        value: valueSize,
+                        adminId: currentUser?.id
+                    })
+                }
+                toast({
+                    title: successMessage,
+                })
+                router.push('/dashboard/sizes')
+    
+            } catch (error) {
+                if(error instanceof AxiosError) {
+                    const errMsg = error.response?.data
+                    toast({
+                        variant: 'destructive',
+                        title: errMsg,
+                    })
+                }
+            } finally {
+                notLoading()
+            }
         }
-      }, [size, valueSize, initialValue, params, currentUser]
+      }, [size, valueSize, initialValue, router, notLoading, onLoading, successMessage, params, currentUser]
     )
 
 
@@ -72,7 +87,7 @@ const CreateSize = ({ currentUser, initialValue } : {
                 title='Create a new Size'
                 Buttonlabel='Create Size'
                 LoadingLabel='Creating...'
-                isLoading={isLoading}
+                isLoading={Loading}
                 size={size}
                 setValueSize={setValueSize}
                 valueSize={valueSize}

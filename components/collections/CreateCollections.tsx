@@ -13,7 +13,7 @@ import { useParams, useRouter } from "next/navigation"
 import { toast } from '../ui/use-toast';
 import { useLoadingStore } from '@/hooks/useStore';
 import { getErrorMessage } from '@/lib/error-handler';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 type CreateCollectionsProps = {
     currentUser: Admin | null
@@ -23,13 +23,11 @@ type CreateCollectionsProps = {
 const CreateCollections: React.FC<CreateCollectionsProps> = ({ initialValue, currentUser } ) => {
     const router = useRouter()
     const params = useParams()
-    const [isPending, startTransition] = useTransition()
     const { Loading, onLoading, notLoading } = useLoadingStore()
     const [collection, setCollection] = useState(initialValue ? initialValue?.name : '')
     const [image, setImage] = useState(initialValue ? initialValue.image : '')
     const [isEssentials, setIsEssentials] = useState(initialValue ? initialValue?.isEssentials : false)
     const [isLimitedEdition, setIsLimitedEdition] = useState(initialValue ? initialValue?.isLimitedEdition : false)
-    const [isHovered, setIsHovered] = useState(false);
     const titleLabel = initialValue ? 'Update this collection' : 'Create a new collection'
     const ButtonTitle = initialValue ? 'Update collection' : 'Create collection'
     const LoadingTitle = initialValue ? 'Updating...' : 'Creating...'
@@ -37,41 +35,57 @@ const CreateCollections: React.FC<CreateCollectionsProps> = ({ initialValue, cur
     async function onSubmit(e: SyntheticEvent) {
         e.preventDefault()
         onLoading()
-        try {
-            if(initialValue) {
-                await axios.patch(`/api/collections/${params.collectionName}`, {
-                    name: collection,
-                    imageUrl: image,
-                    isEssentials: isEssentials,
-                    isLimitedEdition: isLimitedEdition,
-                    adminId: currentUser?.id
-                })
-            } else {
-                await axios.post('/api/collections', {
-                    name: collection,
-                    imageUrl: image,
-                    isEssentials: isEssentials,
-                    isLimitedEdition: isLimitedEdition,
-                    adminId: currentUser?.id
-                })
-            }
+
+        //CHECK IF THERE IS ANY INPUT
+        if(collection === '' || image === '') {
             toast({
-                title: initialValue ? 'Collection updated!' : 'Collection created!'
+                variant: 'destructive',
+                title: 'Missing Details!',
+                description: `Oops! It seems like you are trying to create a new collection but some essential details are missing.`
             })
-            window.location.assign('/dashboard/collections')
-        } catch (error) {
-            toast({
-                title: getErrorMessage(error)
-            })
-        } finally {
             notLoading()
+        } else {
+
+            //RUN POST REQUEST IF IT PASSES THE CHECK PHASE
+            try {
+                if(initialValue) {
+                    await axios.patch(`/api/collections/${params.collectionName}`, {
+                        name: collection,
+                        imageUrl: image,
+                        isEssentials: isEssentials,
+                        isLimitedEdition: isLimitedEdition,
+                        adminId: currentUser?.id
+                    })
+                } else {
+                    await axios.post('/api/collections', {
+                        name: collection,
+                        imageUrl: image,
+                        isEssentials: isEssentials,
+                        isLimitedEdition: isLimitedEdition,
+                        adminId: currentUser?.id
+                    })
+                }
+                toast({
+                    title: initialValue ? 'Collection updated!' : 'Collection created!'
+                })
+                router.push('/dashboard/collections')
+                
+            } catch (error) {
+                if(error instanceof AxiosError) {
+                    const errMsg = error.response?.data
+                    toast({
+                        variant: 'destructive',
+                        title: errMsg
+                    })
+                }
+            } finally {
+                notLoading()
+            }
         }
     }
 
-    console.log(image, collection, isEssentials, isLimitedEdition)
-
   return (
-    <section>
+    <main>
         <div className='grid gap-5'>
             <Button 
             variant='outline'
@@ -127,7 +141,7 @@ const CreateCollections: React.FC<CreateCollectionsProps> = ({ initialValue, cur
                 </form>
             </div>
         </div>
-    </section>
+    </main>
   )
 }
 

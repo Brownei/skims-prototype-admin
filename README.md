@@ -11,6 +11,7 @@ The Skims Admin Prototype was built to demonstrate how an intuitive admin interf
 - Framework: Next.js
 - Styling: Tailwind CSS
 - Authentication: Next-Auth
+- Data Fetching: Tanstack Query
 - ORM: Prisma ORM
 - UI Components: shadcn/ui
 - File Uploads: uploadthing and Cloudinary

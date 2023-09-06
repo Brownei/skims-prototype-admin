@@ -61,23 +61,23 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
         
         if(!name || !details || !price) {
-            return new Response("No valid details about the product", {status: 300})
+            return new Response("No valid details about the product", {status: 404})
         }
 
         if(!categoryId || !subCategoryId) {
-            return new Response("No valid categories/sub-categories about the product", {status: 300})
+            return new Response("No valid categories/sub-categories about the product", {status: 404})
         }
 
         if(!sizeId || !styleId || !colorId) {
-            return new Response("No valid color/style/size about the product", {status: 300})
+            return new Response("No valid color/style/size about the product", {status: 404})
         }
 
         if(!collectionId || !quantity) {
-            return new Response("No valid collection/quantity about the product", {status: 300})
+            return new Response("No valid collection/quantity about the product", {status: 404})
         }
 
         if(!images || images.length < 0) {
-            return new Response("No picture about the product", {status: 300})
+            return new Response("No picture about the product", {status: 404})
         }
 
         const existingProducts = await prismaClient.product.findUnique({
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         })
 
         if(existingProducts) {
-            return new Response("Existing product!")
+            return new Response("Existing product!", {status: 409})
         }
 
 

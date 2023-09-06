@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation"
 import { SyntheticEvent, useCallback, useState } from "react"
 import { toast } from '@/components/ui/use-toast';
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { Admin, Category, SubCategory } from '@prisma/client';
 import CategoryForm from '../forms/categoryForm';
 import { Button } from '../ui/button';
@@ -26,8 +26,7 @@ const CreateCategory = ({ currentUser, initialCategory, initialSubCategory } : {
     const [subCategory, setSubCategory] = useState<subCategories[]>(initialSubCategory ? initialSubCategory.map((i) => ({id: i.id, name: i.name})) : [{ name: '', id: ""}])
     const params = useParams()
     const router = useRouter()
-    const errorMessage = initialCategory ? 'Error updating this category' : 'Error creating a category'
-    const toastMessage = initialCategory ? 'Updated category' : 'Created category'
+    const successMessage = initialCategory ? 'Updated category' : 'Created category'
     const titleLabel = initialCategory ? 'Update this category' : 'Create a new category'
     const ButtonTitle = initialCategory ? 'Update category' : 'Create category'
     const LoadingTitle = initialCategory ? 'Updating...' : 'Creating...'
@@ -35,32 +34,47 @@ const CreateCategory = ({ currentUser, initialCategory, initialSubCategory } : {
     const OnSubmit = async (e: SyntheticEvent) => {
         e.preventDefault()
         onLoading()
-        try {
-            if(initialCategory && initialSubCategory) {
-                await axios.patch(`/api/categories/${params.categoryName}`, {
-                    name: category,
-                    subCategoryName: subCategory.map((i) => (i.name)),
-                    adminId: currentUser?.id,
-                })
-            } else {
-                await axios.post('/api/categories', {
-                    name: category,
-                    subCategoriesName: subCategory.map((i) => (i.name)),
-                    adminId: currentUser?.id,
-                })
-            }
+
+        //CHECK IF THERE IS ANY INPUT
+        if(category === '' || !subCategory) {
             toast({
-                title: toastMessage
+                variant: 'destructive',
+                title: 'Missing Details!',
+                description: `Oops! It seems like you are trying to create a new category but some essential details are missing.`
             })
-            window.location.assign('/dashboard/categories')
-        } catch (error) {
-            console.log(errorMessage, getErrorMessage(error))
-            toast({
-                title: errorMessage,
-                type: "foreground"
-            })
-        } finally {
             notLoading()
+        } else {
+
+            //RUN POST REQUEST IF IT PASSES THE CHECK PHASE
+            try {
+                if(initialCategory && initialSubCategory) {
+                    await axios.patch(`/api/categories/${params.categoryName}`, {
+                        name: category,
+                        subCategoryName: subCategory.map((i) => (i.name)),
+                        adminId: currentUser?.id,
+                    })
+                } else {
+                    await axios.post('/api/categories', {
+                        name: category,
+                        subCategoriesName: subCategory.map((i) => (i.name)),
+                        adminId: currentUser?.id,
+                    })
+                }
+                toast({
+                    title: successMessage
+                })
+                router.push('/dashboard/categories')
+            } catch (error: unknown) {
+                if(error instanceof AxiosError) {
+                    const errMsg = error.response?.data
+                    toast({
+                        variant: 'destructive',
+                        title: errMsg
+                    })
+                }
+            } finally {
+                notLoading()
+            }
         }
     }
 

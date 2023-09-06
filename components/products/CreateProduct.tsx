@@ -9,10 +9,10 @@ import { SyntheticEvent, useState } from "react"
 import ImageUpload from "@/components/upload"
 import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
-import { toast } from '../ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { useLoadingStore } from '@/hooks/useStore';
 import { getErrorMessage } from '@/lib/error-handler';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from '../ui/select';
 import { nanoid } from 'nanoid';
 import { ArrowLeftIcon, TrashIcon } from '@radix-ui/react-icons';
@@ -57,57 +57,80 @@ const CreateProducts: React.FC<CreateProductsProps> = ({ initialValue, currentUs
     const titleLabel = initialValue ? 'Update this product' : 'Create a new product'
     const ButtonTitle = initialValue ? 'Update product' : 'Create product'
     const LoadingTitle = initialValue ? 'Updating...' : 'Creating...'
+    const successMessage = initialValue ? 'Product updated!' : 'Product created!'
 
     async function onSubmit(e: SyntheticEvent) {
         e.preventDefault()
         onLoading()
-        try {
-            if(initialValue) {
-                await axios.patch(`/api/products/${params.productName}`, {
-                    name: name as string,
-                    price: price as number,
-                    details: details as string,
-                    categoryId: category as string,
-                    subCategoryId: subCategory as string,
-                    quantity: quantity as number,
-                    isFeatured: isFeatured as boolean,
-                    isSoldOut: isSoldOut as boolean,
-                    adminId: currentUser?.id as string,
-                    sizeId: size.map((i) => (i)),
-                    colorId: color as string,
-                    styleId: style as string,
-                    collectionId: collection as string,
-                    images: image.map((i) => (i))
-                })
-            } else {
-                await axios.post('/api/products', {
-                    name: name as string,
-                    details: details as string,
-                    categoryId: category as string,
-                    subCategoryId: subCategory as string,
-                    sizeId: size.map((i) => (i)),
-                    styleId: style as string,
-                    colorId: color as string,
-                    images: image.map((i) => (i.url)),
-                    collectionId: collection as string,
-                    price: price as number,
-                    isFeatured: isFeatured as boolean,
-                    quantity: quantity as number,
-                    isSoldOut: isSoldOut as boolean,
-                    adminId: currentUser?.id as string,
-                })
-            }
+
+        //CHECK IF THERE IS ANY INPUT
+        if( 
+            name === '' || price  === 0 ||
+            details === '' || quantity === 0 ||
+            style === '' || category === '' ||
+            subCategory === '' || collection === '' ||
+            color === '' || !image || !size
+        ) {
             toast({
-                title: initialValue ? 'Product updated!' : 'Product created!'
+                variant: 'destructive',
+                title: 'Missing Details!',
+                description: `Oops! It seems like you are trying to create a new product but some essential details are missing.`
             })
-            window.location.assign('/dashboard/products')
-        } catch (error) {
-            console.log(error)
-            toast({
-                title: getErrorMessage(error)
-            })
-        } finally {
             notLoading()
+        } else {
+
+            //RUN POST REQUEST IF IT PASSES THE CHECK PHASE
+            try {
+                if(initialValue) {
+                    await axios.patch(`/api/products/${params.productName}`, {
+                        name: name as string,
+                        price: price as number,
+                        details: details as string,
+                        categoryId: category as string,
+                        subCategoryId: subCategory as string,
+                        quantity: quantity as number,
+                        isFeatured: isFeatured as boolean,
+                        isSoldOut: isSoldOut as boolean,
+                        adminId: currentUser?.id as string,
+                        sizeId: size.map((i) => (i)),
+                        colorId: color as string,
+                        styleId: style as string,
+                        collectionId: collection as string,
+                        images: image.map((i) => (i))
+                    })
+                } else {
+                    await axios.post('/api/products', {
+                        name: name as string,
+                        details: details as string,
+                        categoryId: category as string,
+                        subCategoryId: subCategory as string,
+                        sizeId: size.map((i) => (i)),
+                        styleId: style as string,
+                        colorId: color as string,
+                        images: image.map((i) => (i.url)),
+                        collectionId: collection as string,
+                        price: price as number,
+                        isFeatured: isFeatured as boolean,
+                        quantity: quantity as number,
+                        isSoldOut: isSoldOut as boolean,
+                        adminId: currentUser?.id as string,
+                    })
+                }
+                toast({
+                    title: successMessage,
+                })
+                window.location.assign('/dashboard/products')
+            } catch (error) {
+                if(error instanceof AxiosError) {
+                    const errMsg = error.response?.data
+                    toast({
+                        variant: 'destructive',
+                        title: errMsg,
+                    })
+                }
+            } finally {
+                notLoading()
+            }
         }
     }
 
@@ -120,7 +143,6 @@ const CreateProducts: React.FC<CreateProductsProps> = ({ initialValue, currentUs
             setSize([...size, _id])
         }
     }
-    // console.log("category:", category, "sub-category:", subCategory, "collections:", collection, "color:", color, "style:", style, "size:", size, "quantity:", quantity, "price:", price, "details:", details )
 
   return (
     <section>
