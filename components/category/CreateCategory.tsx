@@ -63,7 +63,7 @@ const CreateCategory = ({ currentUser, initialCategory, initialSubCategory } : {
                 toast({
                     title: successMessage
                 })
-                router.push('/dashboard/categories')
+                window.location.assign('/dashboard/categories')
             } catch (error: unknown) {
                 if(error instanceof AxiosError) {
                     const errMsg = error.response?.data

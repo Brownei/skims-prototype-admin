@@ -58,7 +58,7 @@ export const DataTable: React.FC<DataTableTypes> = ({collectionDataItem}) => {
   })
 
   return (
-    <div className="space-y-4 font-ProBold">
+    <div className="space-y-4 text-sm font-ProBold">
       <FilterForm table={table} filterOptions={<CollectionFilterOptions table={table}/>}/>
       <div className="rounded-md border">
         <Table>

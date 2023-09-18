@@ -45,7 +45,7 @@ const NewProductsPage = async () => {
     })
     
   return (
-    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-full lg:ml-[23vw]'>
+    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] lg:h-full lg:ml-[23vw]'>
         <CreateProducts 
             currentUser={currentUser}
             colors={colors}

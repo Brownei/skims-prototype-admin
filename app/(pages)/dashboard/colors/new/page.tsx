@@ -5,7 +5,7 @@ const NewColorPage = async () => {
   const currentUser = await getCurrentUser()
 
   return (
-    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-screen lg:ml-[20vw]'>
+    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] lg:h-full lg:ml-[20vw]'>
       <CreateColor currentUser={currentUser}/>
     </section>
   )

@@ -11,7 +11,7 @@ interface IParams {
     const initialValue = await getSizeyByName(params)
 
   return (
-    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-screen lg:ml-[20vw]'>
+    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] lg:h-full lg:ml-[20vw]'>
       <CreateSize currentUser={currentUser} initialValue={initialValue}/>
     </section>
   )

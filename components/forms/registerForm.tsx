@@ -44,7 +44,7 @@ const RegisterForm = () => {
               email,
               password
           })
-          router.push('/dashboard/overview')
+          window.location.assign('/dashboard/overview')
         }
       } catch (error: unknown) {
         if(error instanceof AxiosError) {

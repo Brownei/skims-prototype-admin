@@ -45,7 +45,7 @@ export default async function DashboardPage() {
     });
 
   return (
-    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] font-ProRegular lg:ml-[20vw]'>
+    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] font-ProRegular lg:h-full lg:ml-[20vw]'>
       <div className="hidden flex-col md:flex">
         <div className="border-b">
             <div className="hidden ml-auto justify-end items-center space-x-4 lg:flex">

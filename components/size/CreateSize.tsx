@@ -53,7 +53,7 @@ const CreateSize = ({ currentUser, initialValue } : {
                 toast({
                     title: successMessage,
                 })
-                router.push('/dashboard/sizes')
+                window.location.assign('/dashboard/sizes')
     
             } catch (error) {
                 if(error instanceof AxiosError) {

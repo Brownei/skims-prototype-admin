@@ -9,7 +9,7 @@ import RegisterForm from "@/components/forms/registerForm";
 
  const RegisterPage = () => {  
   return (
-    <section className="h-full w-full lg:bg-[#eceaf2]">
+    <section className="h-[100dvh] w-full lg:h-full lg:bg-[#eceaf2]">
         <div className="flex flex-col justify-between items-center lg:flex-row-reverse">
             {/* Large Screen View  */}
             <Swiper className="hidden w-1/2 h-full z-30 lg:block" modules={[EffectFade, Autoplay]} effect="fade" autoplay>
@@ -43,7 +43,7 @@ import RegisterForm from "@/components/forms/registerForm";
                 <Image className="w-full h-screen object-cover lg:hidden" src={'https://cdn.sanity.io/images/hfqi0zm0/production/5ee76456b9499bed5a7a78cc55eb36946bed672e-706x894.jpg?q=95&auto=format'} width={1000} height={1000} quality={100} alt="1"/>
             </SwiperSlide>
         </Swiper>
-        <div className="bg-white p-5 rounded-lg absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] w-[80%] z-30 lg:hidden">
+        <div className="bg-white p-5 rounded-lg absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] w-[95%] z-30 lg:hidden">
             <h1 className="text-center font-ProExtraBold text-[5vw]">Register with SKIMS</h1>
             <p className="text-center font-ProLight text-sm mb-4">Here you can focus on creating a solution for every body</p>
             <RegisterForm />

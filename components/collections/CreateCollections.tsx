@@ -68,7 +68,7 @@ const CreateCollections: React.FC<CreateCollectionsProps> = ({ initialValue, cur
                 toast({
                     title: initialValue ? 'Collection updated!' : 'Collection created!'
                 })
-                router.push('/dashboard/collections')
+                window.location.assign('/dashboard/collections')
                 
             } catch (error) {
                 if(error instanceof AxiosError) {

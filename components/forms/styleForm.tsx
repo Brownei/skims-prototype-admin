@@ -81,7 +81,7 @@ const StyleForm = ({currentUser} : {
         <form onSubmit={handleSubmit} className="grid gap-3">
           <div className="flex gap-3 items-center">
             <Input className="w-[60%]" value={styles} onChange={(e) => setStyles(e.target.value)} placeholder="I will find examples later..." autoComplete="false"/>
-            <Button disabled={Loading} className="w-fit text-center font-ProBold bg-[#AB8F80] hover:bg-[#8b7366] duration-300" type="submit">
+            <Button disabled={Loading} className="w-fit text-center text-sm font-ProBold bg-[#AB8F80] hover:bg-[#8b7366] duration-300" type="submit">
               {Loading ? (
                 <div className="flex gap-2 items-center">
                   <MoonLoader size={20} color="white" />

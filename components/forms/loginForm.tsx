@@ -26,18 +26,18 @@ const LoginForm = () => {
       notLoading()
     } else {
       try {
+        setSubmitError('')
         await signIn('credentials', {
           redirect: false,
           email,
           password
         })
-        router.push('/dashboard/overview')
+        window.location.assign('/dashboard/overview')
       } catch (error: unknown) {
         if(error instanceof AxiosError) {
-          const errMsg = error.response?.data?.error
+          const errMsg = error.response?.data
           setSubmitError(errMsg)
         }
-        console.log(error)
       } finally {
         notLoading()
       }

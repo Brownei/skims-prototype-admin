@@ -21,7 +21,7 @@ export const columns: ColumnDef<CollectionColumn>[] = [
         accessorKey: "image",
         header: "Picture",
         cell: (info: any) => (
-            <Image src={info?.getValue()} alt="Collection Image" height={150} width={150}/>
+            <Image src={info?.getValue()} alt="Collection Image" height={150} width={150} blurDataURL="data:..." placeholder="blur" priority/>
         ),
         minSize: 100
     },

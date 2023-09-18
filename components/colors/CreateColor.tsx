@@ -56,7 +56,7 @@ const CreateColor = ({ currentUser, initialValue } : {
                 toast({
                     title: toastMessage
                 })
-                router.push('/dashboard/colors')
+                window.location.assign('/dashboard/colors')
     
       
             } catch (error: unknown) {

@@ -21,7 +21,7 @@ const StylesPage = async () => {
   revalidatePath('/dashboard/styles')
 
   return (
-    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-screen lg:ml-[22vw]'>
+    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] lg:h-full lg:ml-[22vw]'>
       <h1 className="font-ProBold text-[3vw]">
         Styles({styles.length})
       </h1>

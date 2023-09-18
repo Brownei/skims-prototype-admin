@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 const TransactionsPage = () => {
   return (
-    <section className='container relative mx-auto p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-screen lg:ml-[20vw]'>
+    <section className='container relative mx-auto p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] lg:h-full lg:ml-[20vw]'>
       <h1>TransactionsPage</h1>
     </section>
   )

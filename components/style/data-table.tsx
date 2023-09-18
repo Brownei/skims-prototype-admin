@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 text-sm font-ProExtraBold">
       <FilterForm table={table} filterOptions={<StyleFilterOptions table={table}/>}/>
       <div className="rounded-md border">
         <Table>

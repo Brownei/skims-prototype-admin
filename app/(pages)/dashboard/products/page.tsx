@@ -28,7 +28,7 @@ const ProductssPage = async () => {
   })
 
   return (
-    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-full lg:ml-[20vw]'>
+    <section className='p-4 flex-grow ml-0 rounded-lg bg-[#eceaf2] h-[100dvh] lg:h-full lg:ml-[20vw]'>
       <div className="grid gap-3">
         <Label className="font-ProBold text-[3vw]">
           Products({products.length})
